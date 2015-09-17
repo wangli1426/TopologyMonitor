@@ -30,15 +30,15 @@ public class SentenceGeneratorSpout extends BaseRichSpout {
 
     @Override
     public void nextTuple() {
-        long startTimeStamp = System.currentTimeMillis();
-        TopologyLatencyRecord topologyLatencyRecord = new TopologyLatencyRecord();
-        ComponentLatencyRecord componentLatencyRecord = topologyLatencyRecord.createComponentLatencyRecord("SentenceGeneratorSpout", ComponentLatencyRecord.ComponentType.spout);
         try {
             Thread.sleep(100);
         }
         catch (Exception e){
 
         }
+        long startTimeStamp = System.currentTimeMillis();
+        TopologyLatencyRecord topologyLatencyRecord = new TopologyLatencyRecord();
+        ComponentLatencyRecord componentLatencyRecord = topologyLatencyRecord.createComponentLatencyRecord("SentenceGeneratorSpout", ComponentLatencyRecord.ComponentType.spout);
         String sentence = sentences[random.nextInt(sentences.length)];
         componentLatencyRecord.setExecuteTime(System.currentTimeMillis() - startTimeStamp);
         topologyLatencyRecord.addNewTopologyLatencyRecord(componentLatencyRecord);

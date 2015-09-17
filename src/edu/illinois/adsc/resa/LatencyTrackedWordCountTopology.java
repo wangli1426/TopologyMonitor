@@ -34,7 +34,7 @@ public class LatencyTrackedWordCountTopology {
         if (args != null && args.length > 1) {
             conf.setNumWorkers(3);
 
-            StormSubmitter.submitTopologyWithProgressBar(args[1], conf, builder.createTopology());
+            StormSubmitter.submitTopology(args[1], conf, builder.createTopology());
         }
         else {
             conf.setMaxTaskParallelism(3);

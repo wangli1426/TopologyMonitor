@@ -99,7 +99,7 @@ public class TopologyMonitor {
 
         for(ExecutorSummary e: nameToSummaries.values()) {
             System.out.print(e.get_host()+"."+e.get_component_id()+"."+e.get_executor_info().get_task_start()+":\t");
-            System.out.format("%8.6f\n",e.get_stats().get_throughput().get("600").get("default"));
+//            System.out.format("%8.6f\n",e.get_stats().get_throughput().get("600").get("default"));
         }
     }
 }
