@@ -53,6 +53,17 @@ public class TopologyLatencyRecord implements Serializable {
         System.out.println("total execution delay:"+_executeLatency+"ms");
     }
 
+    public String toStringOutput() {
+        String str="";
+        str += "\t\t"+"receiving latency\t\t"+"execute latency\n";
+        for(ComponentLatencyRecord record: componentLatencyRecords) {
+            str += record.componentName+":\t\t";
+            str += record.receivingDelay + "\t\t" + record.executeTime + "\n";
+        }
+        str += "total execution delay:"+_executeLatency+"ms\n";
+        return str;
+    }
+
     Vector<ComponentLatencyRecord> componentLatencyRecords = new Vector<>();
 
     public static void main(String[] args) throws InterruptedException {

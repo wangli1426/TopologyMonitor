@@ -7,16 +7,8 @@ import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.tuple.Fields;
 import edu.illinois.adsc.resa.bolts.CountBolt;
 import edu.illinois.adsc.resa.bolts.SentenceSplitBolt;
-import edu.illinois.adsc.resa.bolts.TopologyLatnecyRecordPrintBolt;
+import edu.illinois.adsc.resa.bolts.TopologyLatencyRecordPrintBolt;
 import edu.illinois.adsc.resa.spouts.SentenceGeneratorSpout;
-import org.apache.commons.codec.binary.Base64;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.*;
-import java.io.*;
 
 /**
  * Created by Robert on 9/17/15.
@@ -25,20 +17,24 @@ public class LatencyTrackedWordCountTopology {
 
     public static void main(String[] args) throws Exception{
 
+        if(args.length < 1) {
+            throw new IllegalArgumentException("You should specify output file!");
+        }
+
         TopologyBuilder builder = new TopologyBuilder();
 
         builder.setSpout("Sentence Generator", new SentenceGeneratorSpout(), 1);
         builder.setBolt("Split", new SentenceSplitBolt(), 3).shuffleGrouping("Sentence Generator");
         builder.setBolt("count", new CountBolt(), 3).fieldsGrouping("Split", new Fields("word"));
-        builder.setBolt("printer", new TopologyLatnecyRecordPrintBolt(),1).shuffleGrouping("count");
+        builder.setBolt("printer", new TopologyLatencyRecordPrintBolt(args[0]),1).shuffleGrouping("count");
 
 
         Config conf = new Config();
 
-        if (args != null && args.length > 0) {
+        if (args != null && args.length > 1) {
             conf.setNumWorkers(3);
 
-            StormSubmitter.submitTopologyWithProgressBar(args[0], conf, builder.createTopology());
+            StormSubmitter.submitTopologyWithProgressBar(args[1], conf, builder.createTopology());
         }
         else {
             conf.setMaxTaskParallelism(3);
