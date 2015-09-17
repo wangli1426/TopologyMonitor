@@ -39,7 +39,7 @@ public class SentenceSplitBolt extends BaseRichBolt {
             currentTopologyLatencyRecord.addNewTopologyLatencyRecord((ComponentLatencyRecord)componentLatencyRecord.clone());
             currentTopologyLatencyRecord.prepareEmit();
             outputCollector.emit(new Values(currentTopologyLatencyRecord, w));
-            break;
+//            break;
         }
     }
 
