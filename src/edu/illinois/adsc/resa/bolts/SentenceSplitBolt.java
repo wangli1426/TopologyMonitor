@@ -30,15 +30,16 @@ public class SentenceSplitBolt extends BaseRichBolt {
 
         String sentence = input.getStringByField("sentence");
         String[] words = sentence.split(" ");
-        boolean firstEmit = true;
+
         for(String w: words) {
             TopologyLatencyRecord currentTopologyLatencyRecord;
-                currentTopologyLatencyRecord=new TopologyLatencyRecord(topologyLatencyRecord);
+            currentTopologyLatencyRecord=new TopologyLatencyRecord(topologyLatencyRecord);
 
             componentLatencyRecord.setExecuteTime(System.currentTimeMillis() - startTimeStamp);
-            currentTopologyLatencyRecord.addNewTopologyLatencyRecord(componentLatencyRecord);
+            currentTopologyLatencyRecord.addNewTopologyLatencyRecord((ComponentLatencyRecord)componentLatencyRecord.clone());
             currentTopologyLatencyRecord.prepareEmit();
             outputCollector.emit(new Values(currentTopologyLatencyRecord, w));
+            break;
         }
     }
 

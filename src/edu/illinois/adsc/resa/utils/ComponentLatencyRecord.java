@@ -1,5 +1,7 @@
 package edu.illinois.adsc.resa.utils;
 
+import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer20010315OmitComments;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +10,13 @@ import java.io.Serializable;
 public class ComponentLatencyRecord implements Serializable, Cloneable{
 
     public enum ComponentType {spout,bolt};
+
+    public ComponentLatencyRecord(ComponentLatencyRecord r) {
+        this.executeTime = r.executeTime;
+        this.componentName = r.componentName;
+        this.receivingDelay = r.receivingDelay;
+        this.componentType = r.componentType;
+    }
 
     public ComponentLatencyRecord(String name, ComponentType type, long lastSendingTimeStamp) throws IllegalArgumentException{
         if ( type == ComponentType.spout )
@@ -27,6 +36,10 @@ public class ComponentLatencyRecord implements Serializable, Cloneable{
 
     public void setExecuteTime(long time) {
         executeTime = time;
+    }
+
+    public Object clone(){
+        return new ComponentLatencyRecord(this);
     }
 
 

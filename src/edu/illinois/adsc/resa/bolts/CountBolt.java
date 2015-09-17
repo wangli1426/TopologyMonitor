@@ -38,7 +38,7 @@ public class CountBolt extends BaseRichBolt {
         componentLatencyRecord.setExecuteTime(System.currentTimeMillis() - startTimeStamp);
         topologyLatencyRecord.addNewTopologyLatencyRecord(componentLatencyRecord);
 
-//        topologyLatencyRecord.prepareEmit(); prepareEmit is not necessary as this bolt is the last one in the actual data processing logic
+        topologyLatencyRecord.prepareEmit(); // prepareEmit is not necessary as this bolt is the last one in the actual data processing logic
         topologyLatencyRecord.notifyProcessLogicFinished();//notify TopologyLatencyRecord that the processing logic is completed!
 
         if (random.nextFloat()<0.02)

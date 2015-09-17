@@ -47,7 +47,7 @@ public class SentenceGeneratorSpout extends BaseRichSpout {
         String sentence = sentences[random.nextInt(sentences.length)];
         componentLatencyRecord.setExecuteTime(System.currentTimeMillis() - startTimeStamp);
         topologyLatencyRecord.addNewTopologyLatencyRecord(componentLatencyRecord);
-                topologyLatencyRecord.prepareEmit();
+        topologyLatencyRecord.prepareEmit();
         outputCollector.emit(new Values(topologyLatencyRecord,sentence));
     }
 
