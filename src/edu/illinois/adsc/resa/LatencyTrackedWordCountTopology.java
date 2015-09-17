@@ -23,7 +23,7 @@ public class LatencyTrackedWordCountTopology {
 
         TopologyBuilder builder = new TopologyBuilder();
 
-        builder.setSpout("Sentence Generator", new SentenceGeneratorSpout(), 1);
+        builder.setSpout("Sentence Generator", new SentenceGeneratorSpout(Integer.valueOf(args[1])), 1);
         builder.setBolt("Split", new SentenceSplitBolt(), 3).shuffleGrouping("Sentence Generator");
         builder.setBolt("count", new CountBolt(), 3).fieldsGrouping("Split", new Fields("word"));
         builder.setBolt("printer", new TopologyLatencyRecordPrintBolt(args[0]),1).shuffleGrouping("count");
@@ -31,10 +31,10 @@ public class LatencyTrackedWordCountTopology {
 
         Config conf = new Config();
 
-        if (args != null && args.length > 1) {
+        if (args != null && args.length > 2) {
             conf.setNumWorkers(3);
 
-            StormSubmitter.submitTopology(args[1], conf, builder.createTopology());
+            StormSubmitter.submitTopology(args[2], conf, builder.createTopology());
         }
         else {
             conf.setMaxTaskParallelism(3);

@@ -16,6 +16,11 @@ import java.util.Random;
  * Created by Robert on 9/17/15.
  */
 public class SentenceGeneratorSpout extends BaseRichSpout {
+
+    public SentenceGeneratorSpout(int size) {
+        this.payloadSize = size;
+    }
+
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         declarer.declare(new Fields("record","sentence"));
@@ -37,7 +42,7 @@ public class SentenceGeneratorSpout extends BaseRichSpout {
 
         }
         long startTimeStamp = System.currentTimeMillis();
-        TopologyLatencyRecord topologyLatencyRecord = new TopologyLatencyRecord();
+        TopologyLatencyRecord topologyLatencyRecord = new TopologyLatencyRecord(payloadSize);
         ComponentLatencyRecord componentLatencyRecord = topologyLatencyRecord.createComponentLatencyRecord("SentenceGeneratorSpout", ComponentLatencyRecord.ComponentType.spout);
         String sentence = sentences[random.nextInt(sentences.length)];
         componentLatencyRecord.setExecuteTime(System.currentTimeMillis() - startTimeStamp);
@@ -56,4 +61,6 @@ public class SentenceGeneratorSpout extends BaseRichSpout {
             "strings and byte arrays as tuple field values", "To use an object of another type",
             "you just need to implement a serializer for the type"};
     private Random random;
+
+    private int payloadSize;
 }

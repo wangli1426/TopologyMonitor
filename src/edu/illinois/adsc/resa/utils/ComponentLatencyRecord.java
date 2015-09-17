@@ -7,6 +7,8 @@ import java.io.Serializable;
  */
 public class ComponentLatencyRecord implements Serializable, Cloneable{
 
+    public enum ComponentType {spout,bolt};
+
     public ComponentLatencyRecord(String name, ComponentType type, long lastSendingTimeStamp) throws IllegalArgumentException{
         if ( type == ComponentType.spout )
             throw new IllegalArgumentException("cannot specify lastSendingTimeStamp for spout!");
@@ -27,6 +29,7 @@ public class ComponentLatencyRecord implements Serializable, Cloneable{
         executeTime = time;
     }
 
+
     public long executeTime;
 
     /* the duration from the time this record is sent by the upstream component to the time
@@ -36,7 +39,5 @@ public class ComponentLatencyRecord implements Serializable, Cloneable{
 
     private ComponentType componentType;
     public String componentName;
-
-    public enum ComponentType {spout,bolt};
 
 }

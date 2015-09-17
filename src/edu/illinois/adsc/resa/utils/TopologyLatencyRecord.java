@@ -10,8 +10,12 @@ import java.util.Vector;
 public class TopologyLatencyRecord implements Serializable {
 
 
-    public TopologyLatencyRecord() {
+    public TopologyLatencyRecord(int payloadSize) throws IllegalArgumentException {
+        int payloadLength = payloadSize/(Long.SIZE/8);
+        if (payloadLength < 1)
+            throw new IllegalArgumentException("pay load size should be larger than 8");
         _startTimeStamp = System.currentTimeMillis();
+        _payload = new Long[payloadSize/(Long.SIZE/8)];
     }
 
     public TopologyLatencyRecord(TopologyLatencyRecord origin) {
@@ -19,6 +23,7 @@ public class TopologyLatencyRecord implements Serializable {
         this._lastSendTimeStamp = origin._lastSendTimeStamp;
         this._startTimeStamp = origin._startTimeStamp;
         this.componentLatencyRecords = (Vector<ComponentLatencyRecord>)origin.componentLatencyRecords.clone();
+        this._payload = (Long[])origin._payload.clone();
     }
 
     public void prepareEmit() {
@@ -67,7 +72,7 @@ public class TopologyLatencyRecord implements Serializable {
     Vector<ComponentLatencyRecord> componentLatencyRecords = new Vector<>();
 
     public static void main(String[] args) throws InterruptedException {
-        TopologyLatencyRecord topologyLatencyRecord = new TopologyLatencyRecord();
+        TopologyLatencyRecord topologyLatencyRecord = new TopologyLatencyRecord(1000);
 
         ComponentLatencyRecord spoutLatencyRecord = topologyLatencyRecord.createComponentLatencyRecord("spout", ComponentLatencyRecord.ComponentType.spout);
 
@@ -92,4 +97,6 @@ public class TopologyLatencyRecord implements Serializable {
     private long _startTimeStamp;
 
     public long _executeLatency;
+
+    public Long[] _payload;
 }
