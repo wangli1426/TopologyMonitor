@@ -38,11 +38,13 @@ public class TopologyLatencyRecordPrintBolt extends BaseRichBolt {
 //        topologyLatnecyRecordPrintBolt.print();
         fileWriter.append(topologyLatnecyRecordPrintBolt.toStringOutput());
         fileWriter.flush();
+
     }
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-
+        TopologyLatencyRecord t = new TopologyLatencyRecord(100);
+        System.out.print(t._payload.length);
     }
 
     private String fileName;

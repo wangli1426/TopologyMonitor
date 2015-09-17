@@ -23,7 +23,7 @@ public class TopologyLatencyRecord implements Serializable {
         this._lastSendTimeStamp = origin._lastSendTimeStamp;
         this._startTimeStamp = origin._startTimeStamp;
         this.componentLatencyRecords = (Vector<ComponentLatencyRecord>)origin.componentLatencyRecords.clone();
-        this._payload = (Long[])origin._payload.clone();
+//        this._payload = origin._payload.clone();
     }
 
     public void prepareEmit() {
