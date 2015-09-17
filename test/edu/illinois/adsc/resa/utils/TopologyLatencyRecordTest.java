@@ -12,7 +12,7 @@ public class TopologyLatencyRecordTest extends TestCase {
 
     @Test
     public void testEclipsedAllWindows() throws InterruptedException{
-        TopologyLatencyRecord topologyLatencyRecord = new TopologyLatencyRecord();
+        TopologyLatencyRecord topologyLatencyRecord = new TopologyLatencyRecord(1000);
 
         ComponentLatencyRecord spoutLatencyRecord = topologyLatencyRecord.createComponentLatencyRecord("spout", ComponentLatencyRecord.ComponentType.spout);
 
