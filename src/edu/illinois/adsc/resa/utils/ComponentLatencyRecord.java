@@ -1,6 +1,5 @@
 package edu.illinois.adsc.resa.utils;
 
-import com.sun.org.apache.xml.internal.security.c14n.implementations.Canonicalizer20010315OmitComments;
 
 import java.io.Serializable;
 
